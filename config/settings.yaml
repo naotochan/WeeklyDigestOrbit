@@ -1,0 +1,45 @@
+# LM Studio API設定 (接続先は config/.env で設定)
+llm:
+  max_tokens: 4096
+  temperature: 0.3
+
+# 収集設定
+collection:
+  days_back: 7  # 過去何日分を収集するか
+  max_articles_per_feed: 20
+
+# arXiv設定
+arxiv:
+  categories:
+    - "cs.RO"
+    - "cs.AI"
+  keywords:
+    - "embodied"
+    - "physical AI"
+    - "humanoid"
+    - "robot learning"
+    - "manipulation"
+    - "locomotion"
+  max_results: 30
+
+# 出力設定
+output:
+  docs_dir: "docs"
+  archives_dir: "docs/archives"
+  data_dir: "data/digests"
+
+# カテゴリ定義
+categories:
+  - "ヒューマノイド"
+  - "産業用ロボット"
+  - "自動運転・モビリティ"
+  - "AI基盤技術"
+  - "Embodied AI"
+  - "ドローン・無人機"
+  - "その他"
+
+# デプロイ設定
+deploy:
+  auto_push: true
+  branch: "main"
+  commit_message_prefix: "digest:"

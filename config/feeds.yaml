@@ -1,0 +1,122 @@
+# RSSフィード一覧 — Robotics / Physical AI / Embodied AI
+#
+# filter_keywords を指定したフィードは、タイトルまたは本文に
+# いずれかのキーワードを含む記事のみ取得する（大文字小文字不問）。
+# 専門フィードには filter_keywords を設定しない（全件取得）。
+
+# 共通キーワード定義（YAMLアンカー）
+_keywords: &robotics_keywords
+  - robot
+  - ロボット
+  - ロボティクス
+  - humanoid
+  - ヒューマノイド
+  - embodied
+  - physical AI
+  - フィジカルAI
+  - manipulation
+  - locomotion
+  - autonomous
+  - 自律
+  - 自動運転
+  - ドローン
+  - drone
+  - actuator
+  - アクチュエータ
+  - sim2real
+  - reinforcement learning
+  - 強化学習
+  - imitation learning
+  - 模倣学習
+
+feeds:
+  # === 海外専門メディア（フィルタ不要） ===
+  - name: "IEEE Spectrum Robotics"
+    url: "https://spectrum.ieee.org/rss/robotics/fulltext"
+    category: "news"
+    region: "global"
+
+  - name: "The Robot Report"
+    url: "https://www.therobotreport.com/feed"
+    category: "news"
+    region: "global"
+
+  - name: "ScienceDaily Robotics"
+    url: "https://www.sciencedaily.com/rss/computers_math/robotics.xml"
+    category: "news"
+    region: "global"
+
+  - name: "RoboHub"
+    url: "https://robohub.org/feed/"
+    category: "blog"
+    region: "global"
+
+  - name: "Clearpath Robotics"
+    url: "https://clearpathrobotics.com/feed/"
+    category: "blog"
+    region: "global"
+
+  - name: "Robotiq Blog"
+    url: "https://blog.robotiq.com/rss.xml"
+    category: "blog"
+    region: "global"
+
+  # === 海外汎用メディア（キーワードフィルタ） ===
+  - name: "TechCrunch Robotics"
+    url: "https://techcrunch.com/category/robotics/feed/"
+    category: "news"
+    region: "global"
+
+  - name: "MIT Technology Review"
+    url: "https://www.technologyreview.com/feed/"
+    category: "news"
+    region: "global"
+    filter_keywords: *robotics_keywords
+
+  - name: "VentureBeat AI"
+    url: "https://venturebeat.com/category/ai/feed/"
+    category: "news"
+    region: "global"
+    filter_keywords: *robotics_keywords
+
+  - name: "Google DeepMind"
+    url: "https://deepmind.google/discover/blog/feed.xml"
+    category: "blog"
+    region: "global"
+    filter_keywords: *robotics_keywords
+
+  # === 国内専門メディア（フィルタ不要） ===
+  - name: "ロボスタ"
+    url: "https://robotstart.info/feed"
+    category: "news"
+    region: "japan"
+
+  - name: "ROBOT MEDIA"
+    url: "https://robot.mirai-media.net/feed/"
+    category: "news"
+    region: "japan"
+
+  # === 国内汎用メディア（キーワードフィルタ） ===
+  - name: "ITmedia AI+"
+    url: "https://rss.itmedia.co.jp/rss/2.0/aiplus.xml"
+    category: "news"
+    region: "japan"
+    filter_keywords: *robotics_keywords
+
+  - name: "MONOist FA"
+    url: "https://rss.itmedia.co.jp/rss/2.0/mn_fa.xml"
+    category: "news"
+    region: "japan"
+    filter_keywords: *robotics_keywords
+
+  - name: "日経XTECH Manufacturing"
+    url: "https://xtech.nikkei.com/rss/xtech-mono.rdf"
+    category: "news"
+    region: "japan"
+    filter_keywords: *robotics_keywords
+
+  - name: "ASCII.jp TECH"
+    url: "https://ascii.jp/tech/rss.xml"
+    category: "news"
+    region: "japan"
+    filter_keywords: *robotics_keywords

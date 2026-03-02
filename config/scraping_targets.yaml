@@ -1,0 +1,23 @@
+# スクレイピング対象サイト定義
+# 各サイトのCSSセレクタを指定してニュース記事を抽出する
+targets:
+  - name: "Robotics Business Review"
+    url: "https://www.roboticsbusinessreview.com/news/"
+    selectors:
+      article: "article.post"
+      title: "h2 a"
+      link: "h2 a"
+      date: "time"
+      snippet: ".entry-summary p"
+    enabled: true
+
+  # 必要に応じてターゲットを追加
+  # - name: "サイト名"
+  #   url: "https://..."
+  #   selectors:
+  #     article: "CSSセレクタ"
+  #     title: "CSSセレクタ"
+  #     link: "CSSセレクタ"
+  #     date: "CSSセレクタ"
+  #     snippet: "CSSセレクタ"
+  #   enabled: true

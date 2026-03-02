@@ -1,0 +1,19 @@
+[Unit]
+Description=WeeklyDigestOrbit - Weekly Robotics/AI News Digest Generator
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=%i
+WorkingDirectory=/home/pi/WeeklyDigestOrbit
+ExecStart=/home/pi/WeeklyDigestOrbit/.venv/bin/python src/main.py
+Environment=PYTHONPATH=/home/pi/WeeklyDigestOrbit/src
+StandardOutput=journal
+StandardError=journal
+
+# タイムアウト: 24Bモデル × 7回以上のLLM呼び出しを考慮
+TimeoutStartSec=3600
+
+[Install]
+WantedBy=multi-user.target

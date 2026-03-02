@@ -1,0 +1,10 @@
+[Unit]
+Description=WeeklyDigestOrbit - Weekly Timer (毎週月曜 AM 7:00)
+
+[Timer]
+OnCalendar=Mon *-*-* 07:00:00
+Persistent=true
+RandomizedDelaySec=300
+
+[Install]
+WantedBy=timers.target
