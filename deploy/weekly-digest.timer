@@ -1,8 +1,8 @@
 [Unit]
-Description=WeeklyDigestOrbit - Weekly Timer (毎週月曜 AM 7:00)
+Description=WeeklyDigestOrbit - Weekly Timer (毎週月曜 AM 1:00)
 
 [Timer]
-OnCalendar=Mon *-*-* 07:00:00
+OnCalendar=Mon *-*-* 01:00:00
 Persistent=true
 RandomizedDelaySec=300
 
