@@ -5,7 +5,7 @@ Wants=network-online.target
 
 [Service]
 Type=oneshot
-User=%i
+User=pi
 WorkingDirectory=/home/pi/WeeklyDigestOrbit
 ExecStart=/home/pi/WeeklyDigestOrbit/.venv/bin/python src/main.py
 Environment=PYTHONPATH=/home/pi/WeeklyDigestOrbit/src

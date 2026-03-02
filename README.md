@@ -59,15 +59,15 @@ python src/main.py
 
 ```bash
 # サービスファイルをコピー
-sudo cp deploy/weekly-digest.service /etc/systemd/system/weekly-digest@.service
-sudo cp deploy/weekly-digest.timer /etc/systemd/system/weekly-digest.timer
+sudo cp deploy/weekly-digest.service /etc/systemd/system/
+sudo cp deploy/weekly-digest.timer /etc/systemd/system/
 
-# 有効化（pi ユーザーで実行）
-sudo systemctl enable weekly-digest@pi.timer
-sudo systemctl start weekly-digest@pi.timer
+# 有効化
+sudo systemctl enable weekly-digest.timer
+sudo systemctl start weekly-digest.timer
 
 # 手動実行テスト
-sudo systemctl start weekly-digest@pi.service
+sudo systemctl start weekly-digest.service
 ```
 
 ## ディレクトリ構成
