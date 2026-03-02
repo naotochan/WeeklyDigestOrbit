@@ -170,6 +170,7 @@ def main():
         docs_dir=output.get("docs_dir", "docs"),
         archives_dir=output.get("archives_dir", "docs/archives"),
         data_dir=output.get("data_dir", "data/digests"),
+        days_back=days_back,
     )
 
     # 4. デプロイ

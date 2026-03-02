@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja" class="dark">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,30 +7,28 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
-      darkMode: 'class',
       theme: {
         extend: {
           colors: {
             japan: {
-              300: '#ffa8a8', 400: '#ff8787', 500: '#ff6b6b', 600: '#fa5252',
-              700: '#f03e3e', 800: '#e03131', 900: '#c92a2a', 950: '#4a1010',
+              50: '#fef2f2', 100: '#fee2e2', 200: '#fecaca', 300: '#fca5a5',
+              400: '#f87171', 500: '#ef4444', 600: '#dc2626', 700: '#b91c1c',
             },
             orbit: {
-              50: '#f0f4ff', 100: '#dbe4ff', 200: '#bac8ff', 300: '#91a7ff',
-              400: '#748ffc', 500: '#5c7cfa', 600: '#4c6ef5', 700: '#4263eb',
-              800: '#3b5bdb', 900: '#364fc7', 950: '#1e2a5e',
+              50: '#eef2ff', 100: '#e0e7ff', 200: '#c7d2fe', 300: '#a5b4fc',
+              400: '#818cf8', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca',
             },
             tech: {
-              300: '#63e6be', 400: '#38d9a9', 500: '#20c997', 600: '#12b886',
-              700: '#0ca678', 800: '#099268', 900: '#087f5b', 950: '#0a3d2e',
+              50: '#ecfdf5', 100: '#d1fae5', 200: '#a7f3d0', 300: '#6ee7b7',
+              400: '#34d399', 500: '#10b981', 600: '#059669', 700: '#047857',
             },
             gtech: {
-              300: '#66d9e8', 400: '#3bc9db', 500: '#22b8cf', 600: '#15aabf',
-              700: '#1098ad', 800: '#0c8599', 900: '#0b7285', 950: '#073d47',
+              50: '#ecfeff', 100: '#cffafe', 200: '#a5f3fc', 300: '#67e8f9',
+              400: '#22d3ee', 500: '#06b6d4', 600: '#0891b2', 700: '#0e7490',
             },
             paper: {
-              300: '#a5d8ff', 400: '#74c0fc', 500: '#4dabf7', 600: '#339af0',
-              700: '#228be6', 800: '#1c7ed6', 900: '#1864ab', 950: '#0f3460',
+              50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd',
+              400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8',
             }
           }
         }
@@ -47,30 +45,30 @@
     details[open] .expand-icon { transform: rotate(180deg); }
   </style>
 </head>
-<body class="bg-gray-950 text-gray-100 min-h-screen">
+<body class="bg-stone-50 text-gray-800 min-h-screen">
 
   <!-- Header -->
-  <header class="border-b border-gray-800 bg-gray-950/80 backdrop-blur-sm sticky top-0 z-50">
+  <header class="border-b border-gray-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4">
       <div class="flex items-center justify-between">
         <div>
-          <h1 class="text-xl font-bold text-orbit-400 tracking-tight">
-            <span class="text-orbit-300">&#9679;</span> WeeklyDigestOrbit
+          <h1 class="text-xl font-bold text-orbit-600 tracking-tight">
+            <span class="text-orbit-400">&#9679;</span> WeeklyDigestOrbit
           </h1>
-          <p class="text-sm text-gray-500 mt-0.5">Robotics / Physical AI / Embodied AI</p>
+          <p class="text-sm text-gray-400 mt-0.5">Robotics / Physical AI / Embodied AI</p>
         </div>
         <div class="text-right">
-          <p class="text-sm font-medium text-gray-300">{{ digest.meta.week_start }} — {{ digest.meta.week_end }}</p>
-          <p class="text-xs text-gray-600">{{ digest.meta.article_count }}件</p>
+          <p class="text-sm font-medium text-gray-600">{{ digest.meta.week_start }} — {{ digest.meta.week_end }}</p>
+          <p class="text-xs text-gray-400">{{ digest.meta.article_count }}件</p>
         </div>
       </div>
       <nav class="mt-3 flex flex-wrap gap-3 text-sm">
-        <a href="#japan-biz" class="text-japan-400 hover:text-japan-300 transition-colors">国内ビジネス</a>
-        <a href="#global-biz" class="text-orbit-400 hover:text-orbit-300 transition-colors">海外ビジネス</a>
-        <a href="#japan-tech" class="text-tech-400 hover:text-tech-300 transition-colors">国内技術</a>
-        <a href="#global-tech" class="text-gtech-400 hover:text-gtech-300 transition-colors">海外技術</a>
-        <a href="#papers" class="text-paper-400 hover:text-paper-300 transition-colors">論文</a>
-        <a href="#archives" class="text-gray-500 hover:text-gray-400 transition-colors">Archives</a>
+        <a href="#japan-biz" class="text-japan-600 hover:text-japan-700 transition-colors">国内ビジネス</a>
+        <a href="#global-biz" class="text-orbit-600 hover:text-orbit-700 transition-colors">海外ビジネス</a>
+        <a href="#japan-tech" class="text-tech-600 hover:text-tech-700 transition-colors">国内技術</a>
+        <a href="#global-tech" class="text-gtech-600 hover:text-gtech-700 transition-colors">海外技術</a>
+        <a href="#papers" class="text-paper-600 hover:text-paper-700 transition-colors">論文</a>
+        <a href="#archives" class="text-gray-400 hover:text-gray-600 transition-colors">Archives</a>
       </nav>
     </div>
   </header>
@@ -87,24 +85,24 @@
     {% set must_read = section_data.get("must_read", []) %}
     {% set categories = section_data.get("categories", {}) %}
 
-    <div id="{{ section_id }}"{% if not is_first %} class="border-t border-gray-800 pt-10"{% endif %}>
+    <div id="{{ section_id }}"{% if not is_first %} class="border-t border-gray-200 pt-10"{% endif %}>
       <div class="flex items-center gap-3 mb-6">
         <div class="w-1 h-8 bg-{{ color }}-500 rounded-full"></div>
         <div>
-          <h2 class="text-lg font-bold text-{{ color }}-300">{{ title }}</h2>
-          <p class="text-xs text-gray-500">{{ subtitle }}</p>
+          <h2 class="text-lg font-bold text-{{ color }}-700">{{ title }}</h2>
+          <p class="text-xs text-gray-400">{{ subtitle }}</p>
         </div>
       </div>
 
       {# サマリー #}
       {% if summary %}
       <section class="fade-in mb-6">
-        <div class="bg-gradient-to-br from-{{ color }}-950 to-gray-900 rounded-2xl p-6 border border-{{ color }}-800/30">
-          <p class="text-gray-300 leading-relaxed">{{ summary | md_links }}</p>
+        <div class="bg-{{ color }}-50 rounded-2xl p-6 border border-{{ color }}-100">
+          <p class="text-gray-700 leading-relaxed">{{ summary | md_links }}</p>
           {% if trends %}
           <div class="mt-4 flex flex-wrap gap-2">
             {% for t in trends %}
-            <span class="inline-block bg-{{ color }}-900/50 text-{{ color }}-300 text-xs px-3 py-1.5 rounded-full border border-{{ color }}-700/30">{{ t }}</span>
+            <span class="inline-block bg-{{ color }}-100 text-{{ color }}-700 text-xs px-3 py-1.5 rounded-full border border-{{ color }}-200">{{ t }}</span>
             {% endfor %}
           </div>
           {% endif %}
@@ -112,23 +110,23 @@
       </section>
       {% endif %}
 
-      {# これだけは見とけ / 読んどけ #}
+      {# 注目ピックアップ #}
       {% if must_read %}
       <section class="fade-in mb-8">
-        <h3 class="text-sm font-semibold text-{{ color }}-400 uppercase tracking-wider mb-3">{{ must_read_label }}</h3>
+        <h3 class="text-sm font-semibold text-{{ color }}-600 uppercase tracking-wider mb-3">{{ must_read_label }}</h3>
         <div class="space-y-3">
           {% for item in must_read %}
-          <div class="bg-{{ color }}-950/40 border border-{{ color }}-800/30 rounded-xl px-5 py-4">
+          <div class="bg-white border border-{{ color }}-100 rounded-xl px-5 py-4 shadow-sm">
             <div class="flex items-start gap-3">
-              <span class="flex-shrink-0 mt-0.5 w-6 h-6 rounded-full bg-{{ color }}-600/20 text-{{ color }}-400 text-xs font-bold flex items-center justify-center">{{ loop.index }}</span>
+              <span class="flex-shrink-0 mt-0.5 w-6 h-6 rounded-full bg-{{ color }}-100 text-{{ color }}-600 text-xs font-bold flex items-center justify-center">{{ loop.index }}</span>
               <div class="min-w-0 flex-1">
                 <a href="{{ item.url }}" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-1.5">
-                  <p class="text-sm font-medium text-gray-200 group-hover:text-{{ color }}-300 transition-colors">{{ item.title }}</p>
-                  <svg class="flex-shrink-0 w-3.5 h-3.5 text-gray-700 group-hover:text-{{ color }}-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                  <p class="text-sm font-medium text-gray-800 group-hover:text-{{ color }}-600 transition-colors">{{ item.title }}</p>
+                  <svg class="flex-shrink-0 w-3.5 h-3.5 text-gray-300 group-hover:text-{{ color }}-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
                 </a>
-                <p class="text-xs font-medium text-{{ color }}-400/80 mt-1">{{ item.one_liner }}</p>
-                {% if item.detail %}<p class="text-xs text-gray-400 leading-relaxed mt-2">{{ item.detail }}</p>{% endif %}
-                <p class="text-xs text-gray-600 mt-2">{{ item.source }}</p>
+                <p class="text-xs font-medium text-{{ color }}-600 mt-1">{{ item.one_liner }}</p>
+                {% if item.detail %}<p class="text-xs text-gray-500 leading-relaxed mt-2">{{ item.detail }}</p>{% endif %}
+                <p class="text-xs text-gray-400 mt-2">{{ item.source }}</p>
               </div>
             </div>
           </div>
@@ -140,33 +138,33 @@
       {# 全記事展開 #}
       {% if categories %}
       <details class="fade-in">
-        <summary class="flex items-center gap-2 text-sm text-gray-400 hover:text-{{ color }}-400 transition-colors py-2">
+        <summary class="flex items-center gap-2 text-sm text-gray-400 hover:text-{{ color }}-600 transition-colors py-2">
           <svg class="expand-icon w-4 h-4 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
           すべて見る（{{ items | length }}件）
         </summary>
         <div class="mt-4 space-y-6">
           <div class="flex flex-wrap gap-2" id="{{ filter_prefix }}-filter">
-            <button class="{{ filter_prefix }}-filter-btn active bg-{{ color }}-600 text-white text-sm px-4 py-1.5 rounded-full transition-colors" data-category="all" onclick="filters['{{ filter_prefix }}']('all')">すべて</button>
+            <button class="{{ filter_prefix }}-filter-btn active bg-{{ color }}-500 text-white text-sm px-4 py-1.5 rounded-full transition-colors" data-category="all" onclick="filters['{{ filter_prefix }}']('all')">すべて</button>
             {% for cat_name in categories %}
-            <button class="{{ filter_prefix }}-filter-btn bg-gray-800 text-gray-400 hover:bg-gray-700 text-sm px-4 py-1.5 rounded-full transition-colors" data-category="{{ cat_name }}" onclick="filters['{{ filter_prefix }}']('{{ cat_name }}')">{{ cat_name }} ({{ categories[cat_name] | length }})</button>
+            <button class="{{ filter_prefix }}-filter-btn bg-gray-100 text-gray-500 hover:bg-gray-200 text-sm px-4 py-1.5 rounded-full transition-colors" data-category="{{ cat_name }}" onclick="filters['{{ filter_prefix }}']('{{ cat_name }}')">{{ cat_name }} ({{ categories[cat_name] | length }})</button>
             {% endfor %}
           </div>
           {% for cat_name, cat_items in categories.items() %}
           <section class="{{ filter_prefix }}-category-section" data-category="{{ cat_name }}">
-            <h3 class="text-base font-semibold text-gray-300 mb-4 flex items-center gap-2">
+            <h3 class="text-base font-semibold text-gray-700 mb-4 flex items-center gap-2">
               <span class="w-1.5 h-1.5 rounded-full bg-{{ color }}-500"></span>{{ cat_name }}
             </h3>
             <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {% for article in cat_items %}
-              <a href="{{ article.url }}" target="_blank" rel="noopener noreferrer" class="group block bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-{{ color }}-700/50 hover:bg-gray-900/80 transition-all">
+              <a href="{{ article.url }}" target="_blank" rel="noopener noreferrer" class="group block bg-white border border-gray-150 rounded-xl p-4 hover:border-{{ color }}-300 hover:shadow-md transition-all shadow-sm">
                 <div class="flex items-start justify-between gap-2 mb-2">
-                  <h4 class="text-sm font-medium text-gray-200 group-hover:text-{{ color }}-300 transition-colors line-clamp-2 leading-snug">{{ article.title }}</h4>
-                  <span class="flex-shrink-0 text-xs text-gray-600 tabular-nums">{{ "\u2605" * (article.importance | default(3)) }}{{ "\u2606" * (5 - (article.importance | default(3))) }}</span>
+                  <h4 class="text-sm font-medium text-gray-800 group-hover:text-{{ color }}-600 transition-colors line-clamp-2 leading-snug">{{ article.title }}</h4>
+                  <span class="flex-shrink-0 text-xs text-gray-300 tabular-nums">{{ "\u2605" * (article.importance | default(3)) }}{{ "\u2606" * (5 - (article.importance | default(3))) }}</span>
                 </div>
                 <p class="text-xs text-gray-500 leading-relaxed line-clamp-3">{{ article.summary }}</p>
                 <div class="mt-3 flex items-center justify-between">
-                  <span class="text-xs text-gray-600">{{ article.authors | default(article.source) }}</span>
-                  <svg class="w-3.5 h-3.5 text-gray-700 group-hover:text-{{ color }}-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                  <span class="text-xs text-gray-400">{{ article.authors | default(article.source) }}</span>
+                  <svg class="w-3.5 h-3.5 text-gray-300 group-hover:text-{{ color }}-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
                 </div>
               </a>
               {% endfor %}
@@ -186,61 +184,72 @@
     {{ render_section(
         "japan-biz", digest.japan_biz,
         "国内ビジネス動向", "資金調達・提携・製品発表・政策",
-        "japan", "⚡ これだけは見とけ", "jpbiz", is_first=true
+        "japan", "ハイライト", "jpbiz", is_first=true
     ) }}
 
     {{ render_section(
         "global-biz", digest.global_biz,
         "海外ビジネス動向", "Industry Now — グローバル市場の動き",
-        "orbit", "⚡ これだけは見とけ", "glbiz"
+        "orbit", "ハイライト", "glbiz"
     ) }}
 
     {{ render_section(
         "japan-tech", digest.japan_tech,
         "国内技術動向", "技術開発・実証実験・導入事例",
-        "tech", "🔧 注目の技術", "jptech"
+        "tech", "ハイライト", "jptech"
     ) }}
 
     {{ render_section(
         "global-tech", digest.global_tech,
         "海外技術動向", "新手法・ベンチマーク・技術ブレイクスルー",
-        "gtech", "🔧 注目の技術", "gltech"
+        "gtech", "ハイライト", "gltech"
     ) }}
 
     {{ render_section(
         "papers", digest.papers,
         "Research Frontier", "今週の注目論文 — 未来を拓く研究",
-        "paper", "📚 これだけは読んどけ", "papers"
+        "paper", "ハイライト", "papers"
     ) }}
 
     <!-- Archives -->
     {% if digest.archives %}
-    <section id="archives" class="fade-in border-t border-gray-800 pt-8">
-      <h3 class="text-base font-semibold text-gray-400 mb-4">過去のダイジェスト</h3>
+    <section id="archives" class="fade-in border-t border-gray-200 pt-8">
+      <h3 class="text-base font-semibold text-gray-500 mb-4">過去のダイジェスト</h3>
       <div class="flex flex-wrap gap-2">
         {% for archive in digest.archives %}
-        <a href="{{ archive.url }}" class="text-xs bg-gray-900 border border-gray-800 text-gray-500 hover:text-orbit-400 hover:border-orbit-700/30 px-3 py-1.5 rounded-lg transition-colors">{{ archive.week_id }}</a>
+        <a href="{{ archive.url }}" class="text-xs bg-white border border-gray-200 text-gray-500 hover:text-orbit-600 hover:border-orbit-300 px-3 py-1.5 rounded-lg transition-colors shadow-sm">{{ archive.week_id }}</a>
         {% endfor %}
       </div>
     </section>
     {% endif %}
   </main>
 
-  <footer class="border-t border-gray-800 mt-12">
+  <footer class="border-t border-gray-200 mt-12 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex items-center justify-between">
-      <p class="text-xs text-gray-600">Generated by WeeklyDigestOrbit — {{ digest.meta.generated_at[:10] }}</p>
-      <a id="dl-link" download="{{ digest.meta.week_id }}.html" class="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-orbit-400 border border-gray-800 hover:border-orbit-700/30 px-3 py-1.5 rounded-lg transition-colors cursor-pointer">
-        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V3" /></svg>
-        HTMLをダウンロード
-      </a>
+      <p class="text-xs text-gray-400">Generated by WeeklyDigestOrbit — {{ digest.meta.generated_at[:10] }}</p>
+      <div class="flex items-center gap-3">
+        <a id="dl-html" download="{{ digest.meta.week_id }}.html" class="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-orbit-600 border border-gray-200 hover:border-orbit-300 px-3 py-1.5 rounded-lg transition-colors cursor-pointer">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V3" /></svg>
+          HTML
+        </a>
+        <a id="dl-md" download="{{ digest.meta.week_id }}.md" class="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-orbit-600 border border-gray-200 hover:border-orbit-300 px-3 py-1.5 rounded-lg transition-colors cursor-pointer">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V3" /></svg>
+          Markdown
+        </a>
+      </div>
     </div>
   </footer>
   <script>
-    // ページ自身をBlobにしてDLリンクを設定
-    var dl = document.getElementById('dl-link');
-    if (dl) {
+    // HTML DLリンク
+    var dlHtml = document.getElementById('dl-html');
+    if (dlHtml) {
       var blob = new Blob([document.documentElement.outerHTML], {type: 'text/html'});
-      dl.href = URL.createObjectURL(blob);
+      dlHtml.href = URL.createObjectURL(blob);
+    }
+    // Markdown DLリンク（同階層の .md ファイル）
+    var dlMd = document.getElementById('dl-md');
+    if (dlMd) {
+      dlMd.href = dlMd.getAttribute('download').replace('.md', '') + '.md';
     }
   </script>
 
@@ -251,14 +260,14 @@
         var sectionClass = prefix + '-category-section';
         document.querySelectorAll('.' + btnClass).forEach(function(btn) {
           btn.classList.remove('active', activeColor, 'text-white');
-          btn.classList.add('bg-gray-800', 'text-gray-400');
+          btn.classList.add('bg-gray-100', 'text-gray-500');
         });
         var container = document.getElementById(prefix + '-filter');
         if (!container) return;
         var activeBtn = container.querySelector('[data-category="' + category + '"]');
         if (activeBtn) {
           activeBtn.classList.add('active', activeColor, 'text-white');
-          activeBtn.classList.remove('bg-gray-800', 'text-gray-400');
+          activeBtn.classList.remove('bg-gray-100', 'text-gray-500');
         }
         document.querySelectorAll('.' + sectionClass).forEach(function(s) {
           s.style.display = (category === 'all' || s.dataset.category === category) ? '' : 'none';
@@ -266,11 +275,11 @@
       };
     }
     var filters = {
-      'jpbiz': makeFilter('jpbiz', 'bg-japan-600'),
-      'glbiz': makeFilter('glbiz', 'bg-orbit-600'),
-      'jptech': makeFilter('jptech', 'bg-tech-600'),
-      'gltech': makeFilter('gltech', 'bg-gtech-600'),
-      'papers': makeFilter('papers', 'bg-paper-600')
+      'jpbiz': makeFilter('jpbiz', 'bg-japan-500'),
+      'glbiz': makeFilter('glbiz', 'bg-orbit-500'),
+      'jptech': makeFilter('jptech', 'bg-tech-500'),
+      'gltech': makeFilter('gltech', 'bg-gtech-500'),
+      'papers': makeFilter('papers', 'bg-paper-500')
     };
   </script>
 </body>

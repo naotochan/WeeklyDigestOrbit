@@ -66,12 +66,13 @@ def generate_site(
     docs_dir: str = "docs",
     archives_dir: str = "docs/archives",
     data_dir: str = "data/digests",
+    days_back: int = 7,
 ) -> None:
     """ダイジェストデータから静的HTMLを生成する."""
     root = Path(project_root)
     now = datetime.now(JST)
-    week_start = now - timedelta(days=now.weekday())
-    week_end = week_start + timedelta(days=6)
+    week_end = now
+    week_start = now - timedelta(days=days_back)
     week_id = now.strftime("%Y-W%W")
 
     # 全記事数を集計
