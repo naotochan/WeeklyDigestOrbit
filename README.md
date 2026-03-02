@@ -1,8 +1,10 @@
 # WeeklyDigestOrbit
 
-Robotics / Physical AI / Embodied AI 領域の週次ニュースダイジェストを自動生成し、GitHub Pages で公開する。
+Robotics / Physical AI / Embodied AI 領域の週次ニュースダイジェストを自動生成し、GitHub Pages で公開する。自分のためのニュース収集サイトです．
 
-Raspberry Pi 上の systemd timer で毎週月曜に実行。LAN 内の LM Studio API でAI要約を生成する。
+pagesをご覧いただければどんな内容かイメージいただけます．
+
+Raspberry Pi 上の systemd timer で定期実行。LAN 内の LM Studio でAI要約を生成する。
 
 ## 構成
 
@@ -36,7 +38,7 @@ cp config/.env.example config/.env
 # config/.env を編集: LM Studio の接続先を設定
 ```
 
-### config/.env
+### config/.env　例
 
 ```
 LLM_BASE_URL=http://192.168.1.100:1234/v1
@@ -102,3 +104,7 @@ WeeklyDigestOrbit/
 - OpenAI互換API（LM Studio）
 - Jinja2 + Tailwind CSS（CDN）
 - GitHub Pages
+
+## License
+
+[MIT License](LICENSE)
