@@ -52,7 +52,9 @@ def collect_arxiv(
     articles = []
     try:
         for result in client.results(search):
-            published = result.published.replace(tzinfo=timezone.utc)
+            published = result.published
+            if published.tzinfo is None:
+                published = published.replace(tzinfo=timezone.utc)
             if published < cutoff:
                 continue
 

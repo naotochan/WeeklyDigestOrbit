@@ -42,6 +42,9 @@ def collect_rss(feeds_path: str, days_back: int = 7, max_per_feed: int = 20) -> 
             logger.warning("Failed to fetch RSS: %s", name, exc_info=True)
             continue
 
+        if hasattr(parsed, 'status') and parsed.status >= 400:
+            logger.warning("HTTP %d for %s", parsed.status, name)
+            continue
         if parsed.bozo and not parsed.entries:
             logger.warning("RSS parse error for %s: %s", name, parsed.bozo_exception)
             continue

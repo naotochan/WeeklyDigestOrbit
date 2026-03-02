@@ -5,6 +5,7 @@ import logging
 import re
 from datetime import datetime, timedelta, timezone
 from html import escape as html_escape
+from html import unescape as html_unescape
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader
@@ -33,12 +34,15 @@ def _md_links_to_html(text: str) -> str:
         # m はエスケープ済みテキスト上でマッチしているので、
         # title はすでにエスケープ済み（安全）
         title = m.group(1)
-        url = m.group(2)
+        # URLはエスケープ済みなのでunescapeしてからhrefに設定（&amp; → &）
+        url = html_unescape(m.group(2))
         # http/https のみ許可（javascript: 等を排除）
         if not re.match(r'https?://', url):
             return title
+        # href属性値は再度エスケープ
+        safe_url = html_escape(url, quote=True)
         return (
-            f'<a href="{url}" target="_blank" rel="noopener noreferrer"'
+            f'<a href="{safe_url}" target="_blank" rel="noopener noreferrer"'
             f' class="underline hover:text-white transition-colors">{title}</a>'
         )
 
@@ -73,7 +77,8 @@ def generate_site(
     now = datetime.now(JST)
     week_end = now
     week_start = now - timedelta(days=days_back)
-    week_id = now.strftime("%Y-W%W")
+    iso = now.isocalendar()
+    week_id = f"{iso[0]}-W{iso[1]:02d}"
 
     # 全記事数を集計
     total_count = sum(

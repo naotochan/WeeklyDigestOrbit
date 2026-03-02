@@ -35,12 +35,13 @@ def load_settings() -> dict:
 
     settings_path = PROJECT_ROOT / "config" / "settings.yaml"
     with open(settings_path, encoding="utf-8") as f:
-        settings = yaml.safe_load(f)
+        settings = yaml.safe_load(f) or {}
 
     # .env の値を settings に反映
     settings.setdefault("llm", {})
     settings["llm"]["base_url"] = os.getenv("LLM_BASE_URL", "http://localhost:1234/v1")
     settings["llm"]["model"] = os.getenv("LLM_MODEL", "liquid/lfm2-24b-a2b")
+    settings["llm"]["api_key"] = os.getenv("LLM_API_KEY", "lm-studio")
 
     return settings
 
@@ -76,14 +77,15 @@ def collect_all(settings: dict) -> list[dict]:
         scraped = collect_scraping(str(targets_path))
         all_articles.extend(scraped)
 
-    # 重複排除 (URLベース)
+    # 重複排除 (URLベース、空URL除外)
     seen_urls: set[str] = set()
     unique = []
     for article in all_articles:
         url = article.get("url", "")
-        if url not in seen_urls:
-            seen_urls.add(url)
-            unique.append(article)
+        if not url or url in seen_urls:
+            continue
+        seen_urls.add(url)
+        unique.append(article)
 
     logger.info("Total unique articles: %d", len(unique))
     return unique
@@ -104,11 +106,13 @@ def deploy(dry_run: bool, settings: dict) -> None:
     prefix = deploy_settings.get("commit_message_prefix", "digest:")
     JST = timezone(timedelta(hours=9))
     now = datetime.now(JST)
-    message = f"{prefix} {now.strftime('%Y-W%W')} weekly digest"
+    iso = now.isocalendar()
+    message = f"{prefix} {iso[0]}-W{iso[1]:02d} weekly digest"
 
     try:
         subprocess.run(
-            ["git", "add", "docs/", "data/"],
+            ["git", "add", "docs/index.html", "docs/archives/", "docs/*.md",
+             "data/digests/"],
             cwd=str(PROJECT_ROOT),
             check=True,
         )
@@ -133,6 +137,7 @@ def deploy(dry_run: bool, settings: dict) -> None:
         logger.info("Deployed successfully: %s", message)
     except subprocess.CalledProcessError:
         logger.error("Deploy failed", exc_info=True)
+        sys.exit(1)
 
 
 def main():
@@ -159,6 +164,7 @@ def main():
         model=llm.get("model", "liquid/lfm2-24b-a2b"),
         max_tokens=llm.get("max_tokens", 4096),
         temperature=llm.get("temperature", 0.3),
+        api_key=llm.get("api_key", "lm-studio"),
     )
 
     # 3. HTML生成

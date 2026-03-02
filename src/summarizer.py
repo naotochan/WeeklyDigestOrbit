@@ -3,6 +3,7 @@
 import json
 import logging
 import re
+import time
 
 from openai import OpenAI
 
@@ -163,9 +164,10 @@ def summarize_articles(
     model: str,
     max_tokens: int = 4096,
     temperature: float = 0.3,
+    api_key: str = "lm-studio",
 ) -> dict:
     """記事を5セクション（国内BIZ/海外BIZ/国内TECH/海外TECH/論文）に分けて要約する."""
-    client = OpenAI(base_url=base_url, api_key="lm-studio", timeout=600.0)
+    client = OpenAI(base_url=base_url, api_key=api_key, timeout=600.0)
 
     # 論文とニュースを分離
     news_raw = [a for a in articles if a.get("source_type") != "research"]
@@ -238,11 +240,7 @@ def _batch_summarize(
         logger.info("[%s] batch %d/%d (%d items)", label, idx + 1, len(batches), len(batch))
         text = _format_articles(batch)
         try:
-            resp = client.chat.completions.create(
-                model=model,
-                messages=[{"role": "system", "content": prompt}, {"role": "user", "content": text}],
-                max_tokens=max_tokens, temperature=temperature,
-            )
+            resp = _call_llm_with_retry(client, model, prompt, text, max_tokens, temperature)
             content = _extract_json(resp.choices[0].message.content)
             result = json.loads(content)
             all_results.extend(result.get(item_key, []))
@@ -261,19 +259,35 @@ def _synthesize(client: OpenAI, items: list[dict], model: str, temperature: floa
         return {"summary": "", "trends": [], "must_read": []}
     top = items[:30]
     lines = [f"- [{a.get('category', '?')}] {a.get('title', '?')} ({a.get('url', '')}): {a.get('summary', '')}" for a in top]
+    user_text = "今週の主要項目:\n" + "\n".join(lines)
     logger.info("Synthesizing %d items", len(top))
     try:
-        resp = client.chat.completions.create(
-            model=model,
-            messages=[{"role": "system", "content": prompt},
-                      {"role": "user", "content": "今週の主要項目:\n" + "\n".join(lines)}],
-            max_tokens=3072, temperature=temperature,
-        )
+        resp = _call_llm_with_retry(client, model, prompt, user_text, 3072, temperature)
         content = _extract_json(resp.choices[0].message.content)
         return json.loads(content)
     except Exception:
         logger.error("Synthesis failed", exc_info=True)
         return {"summary": "", "trends": [], "must_read": []}
+
+
+def _call_llm_with_retry(client, model, system_prompt, user_text, max_tokens, temperature, max_retries=3):
+    """LLM APIをリトライ付きで呼び出す."""
+    for attempt in range(max_retries):
+        try:
+            return client.chat.completions.create(
+                model=model,
+                messages=[{"role": "system", "content": system_prompt},
+                          {"role": "user", "content": user_text}],
+                max_tokens=max_tokens, temperature=temperature,
+            )
+        except Exception:
+            if attempt < max_retries - 1:
+                wait = 5 * (attempt + 1)
+                logger.warning("LLM call failed (attempt %d/%d), retrying in %ds...",
+                               attempt + 1, max_retries, wait)
+                time.sleep(wait)
+            else:
+                raise
 
 
 def _extract_json(content: str) -> str:

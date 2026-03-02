@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 USER_AGENT = (
     "Mozilla/5.0 (compatible; WeeklyDigestOrbit/1.0; "
-    "+https://github.com/your-repo)"
+    "+https://github.com/naotochan/WeeklyDigestOrbit)"
 )
 
 
@@ -63,8 +63,7 @@ def collect_scraping(targets_path: str) -> list[dict]:
             if not link:
                 continue
             # 相対URLを絶対URLに変換
-            if link.startswith("/"):
-                link = urljoin(url, link)
+            link = urljoin(url, link)
 
             if link in seen_urls:
                 continue
