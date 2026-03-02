@@ -154,7 +154,7 @@ PAPERS_SYNTHESIS_PROMPT = """\
 - 必ず有効なJSONのみを出力すること
 """
 
-BATCH_SIZE = 25
+BATCH_SIZE = 15
 
 
 def summarize_articles(

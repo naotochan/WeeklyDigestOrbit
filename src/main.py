@@ -164,13 +164,14 @@ def main():
     # 3. HTML生成
     logger.info("=== Site Generation ===")
     output = settings.get("output", {})
+    collection = settings.get("collection", {})
     generate_site(
         digest,
         project_root=str(PROJECT_ROOT),
         docs_dir=output.get("docs_dir", "docs"),
         archives_dir=output.get("archives_dir", "docs/archives"),
         data_dir=output.get("data_dir", "data/digests"),
-        days_back=days_back,
+        days_back=collection.get("days_back", 7),
     )
 
     # 4. デプロイ
