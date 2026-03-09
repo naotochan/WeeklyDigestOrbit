@@ -106,13 +106,15 @@ def deploy(dry_run: bool, settings: dict) -> None:
     prefix = deploy_settings.get("commit_message_prefix", "digest:")
     JST = timezone(timedelta(hours=9))
     now = datetime.now(JST)
-    iso = now.isocalendar()
+    # 収集対象は前週なので、7日前の週番号を使用
+    days_back = settings.get("collection", {}).get("days_back", 7)
+    target = now - timedelta(days=days_back)
+    iso = target.isocalendar()
     message = f"{prefix} {iso[0]}-W{iso[1]:02d} weekly digest"
 
     try:
         subprocess.run(
-            ["git", "add", "docs/index.html", "docs/archives/", "docs/*.md",
-             "data/digests/"],
+            ["git", "add", "docs/index.html", "docs/archives/", "docs/*.md"],
             cwd=str(PROJECT_ROOT),
             check=True,
         )

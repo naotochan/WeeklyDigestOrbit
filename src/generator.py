@@ -77,7 +77,8 @@ def generate_site(
     now = datetime.now(JST)
     week_end = now
     week_start = now - timedelta(days=days_back)
-    iso = now.isocalendar()
+    # 収集対象は前週なので、week_start 基準で週番号を決定
+    iso = week_start.isocalendar()
     week_id = f"{iso[0]}-W{iso[1]:02d}"
 
     # 全記事数を集計
