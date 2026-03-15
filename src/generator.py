@@ -75,11 +75,13 @@ def generate_site(
     """ダイジェストデータから静的HTMLを生成する."""
     root = Path(project_root)
     now = datetime.now(JST)
-    week_end = now
-    week_start = now - timedelta(days=days_back)
-    # 収集対象は前週なので、week_start 基準で週番号を決定
-    iso = week_start.isocalendar()
+    # 収集対象は前週なので、(now - days_back) 基準で週番号を決定
+    target = now - timedelta(days=days_back)
+    iso = target.isocalendar()
     week_id = f"{iso[0]}-W{iso[1]:02d}"
+    # ISO週の境界（月曜〜日曜）を表示用日付にする
+    week_start = datetime.fromisocalendar(iso[0], iso[1], 1).replace(tzinfo=JST)
+    week_end = datetime.fromisocalendar(iso[0], iso[1], 7).replace(tzinfo=JST)
 
     # 全記事数を集計
     total_count = sum(
@@ -112,19 +114,20 @@ def generate_site(
     )
     env.filters["md_links"] = lambda text: Markup(_md_links_to_html(text))
     template = env.get_template("index.html.j2")
-    html = template.render(digest=digest)
 
-    # docs/index.html に出力
+    # docs/index.html 用（アーカイブリンクは archives/ 付き）
+    html_index = template.render(digest=digest, archive_url_prefix="archives/")
     docs_path = root / docs_dir
     docs_path.mkdir(parents=True, exist_ok=True)
-    (docs_path / "index.html").write_text(html, encoding="utf-8")
+    (docs_path / "index.html").write_text(html_index, encoding="utf-8")
     logger.info("Generated: %s", docs_path / "index.html")
 
-    # アーカイブに保存
+    # アーカイブ用（同ディレクトリなのでプレフィックス不要）
+    html_archive = template.render(digest=digest, archive_url_prefix="")
     arch_path = root / archives_dir
     arch_path.mkdir(parents=True, exist_ok=True)
     archive_file = arch_path / f"{week_id}.html"
-    archive_file.write_text(html, encoding="utf-8")
+    archive_file.write_text(html_archive, encoding="utf-8")
     logger.info("Archived: %s", archive_file)
 
     # Markdown版を生成（docs/ と archives/ の両方）
@@ -216,7 +219,6 @@ def _get_archives(archives_dir: Path) -> list[dict]:
         archives.append({
             "week_id": week_id,
             "filename": f.name,
-            "url": f"archives/{f.name}",
         })
 
     return archives[:12]
