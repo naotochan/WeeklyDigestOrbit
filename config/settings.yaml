@@ -1,6 +1,6 @@
 # LM Studio API設定 (接続先は config/.env で設定)
 llm:
-  max_tokens: 4096
+  max_tokens: 8192
   temperature: 0.3
 
 # 収集設定
