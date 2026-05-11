@@ -123,7 +123,7 @@ def _make_synthesis_prompt(section_name: str, focus: str, is_english_source: boo
 ## ルール
 - must_read は最も重要な3〜5件を厳選
 - {detail_instruction}
-- summary 内で言及する記事には必ず元のURLを [タイトル](URL) 形式で含めること
+- summary 内で言及する記事には必ず元のURLを （[元記事](URL)） 形式で含めること
 - 必ず有効なJSONのみを出力すること
 """
 
@@ -135,7 +135,7 @@ PAPERS_SYNTHESIS_PROMPT = """\
 ## 出力フォーマット (JSON)
 ```json
 {
-  "summary": "今週の研究動向を3〜5文で要約。summary 内で言及する論文には [タイトル](URL) 形式でリンクを含めること。",
+  "summary": "今週の研究動向を3〜5文で要約。summary 内で言及する論文には （[元記事](URL)） 形式でリンクを含めること。",
   "trends": ["研究トレンド1", "研究トレンド2", "研究トレンド3"],
   "must_read": [
     {
