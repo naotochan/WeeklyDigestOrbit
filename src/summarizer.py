@@ -262,7 +262,7 @@ def _synthesize(client: OpenAI, items: list[dict], model: str, temperature: floa
     user_text = "今週の主要項目:\n" + "\n".join(lines)
     logger.info("Synthesizing %d items", len(top))
     try:
-        resp = _call_llm_with_retry(client, model, prompt, user_text, 3072, temperature)
+        resp = _call_llm_with_retry(client, model, prompt, user_text, 6144, temperature)
         content = _extract_json(resp.choices[0].message.content)
         return json.loads(content)
     except Exception:
@@ -276,7 +276,7 @@ def _call_llm_with_retry(client, model, system_prompt, user_text, max_tokens, te
         try:
             return client.chat.completions.create(
                 model=model,
-                messages=[{"role": "system", "content": system_prompt},
+                messages=[{"role": "system", "content": system_prompt + "\n/no_think"},
                           {"role": "user", "content": user_text}],
                 max_tokens=max_tokens, temperature=temperature,
                 extra_body={"chat_template_kwargs": {"enable_thinking": False}},
