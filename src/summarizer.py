@@ -262,7 +262,7 @@ def _synthesize(client: OpenAI, items: list[dict], model: str, temperature: floa
     user_text = "今週の主要項目:\n" + "\n".join(lines)
     logger.info("Synthesizing %d items", len(top))
     try:
-        resp = _call_llm_with_retry(client, model, prompt, user_text, 6144, temperature)
+        resp = _call_llm_with_retry(client, model, prompt, user_text, 8192, temperature)
         content = _extract_json(resp.choices[0].message.content)
         return json.loads(content)
     except Exception:
