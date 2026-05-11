@@ -279,6 +279,7 @@ def _call_llm_with_retry(client, model, system_prompt, user_text, max_tokens, te
                 messages=[{"role": "system", "content": system_prompt},
                           {"role": "user", "content": user_text}],
                 max_tokens=max_tokens, temperature=temperature,
+                extra_body={"chat_template_kwargs": {"enable_thinking": False}},
             )
         except Exception:
             if attempt < max_retries - 1:
@@ -291,8 +292,10 @@ def _call_llm_with_retry(client, model, system_prompt, user_text, max_tokens, te
 
 
 def _extract_json(content: str) -> str:
-    """LLM出力からJSON部分を抽出する（コードブロック・前後テキスト対応）."""
+    """LLM出力からJSON部分を抽出する（コードブロック・前後テキスト・think block対応）."""
     content = content.strip()
+    # Qwen3 thinking モードの <think>...</think> ブロックを除去
+    content = re.sub(r'<think>.*?</think>', '', content, flags=re.DOTALL).strip()
     # コードブロック内のJSONを抽出
     m = re.search(r'```(?:json)?\s*\n(.*?)\n\s*```', content, re.DOTALL)
     if m:

@@ -40,7 +40,7 @@ def load_settings() -> dict:
     # .env の値を settings に反映
     settings.setdefault("llm", {})
     settings["llm"]["base_url"] = os.getenv("LLM_BASE_URL", "http://localhost:1234/v1")
-    settings["llm"]["model"] = os.getenv("LLM_MODEL", "liquid/lfm2-24b-a2b")
+    settings["llm"]["model"] = os.getenv("LLM_MODEL", "qwen/qwen3.6-27b")
     settings["llm"]["api_key"] = os.getenv("LLM_API_KEY", "lm-studio")
 
     return settings
@@ -163,7 +163,7 @@ def main():
     digest = summarize_articles(
         articles,
         base_url=llm.get("base_url", "http://localhost:1234/v1"),
-        model=llm.get("model", "liquid/lfm2-24b-a2b"),
+        model=llm.get("model", "qwen/qwen3.6-27b"),
         max_tokens=llm.get("max_tokens", 4096),
         temperature=llm.get("temperature", 0.3),
         api_key=llm.get("api_key", "lm-studio"),
