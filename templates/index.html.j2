@@ -7,6 +7,10 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      safelist: [
+        {pattern: /(bg|text|border|from|to|shadow)-(japan|orbit|tech|gtech|paper)-(50|100|200|300|400|500|600|700)/},
+        {pattern: /(bg|text|border)-(japan|orbit|tech|gtech|paper)-(50|100|200|300|400|500|600|700)\/[0-9]+/}
+      ],
       theme: {
         extend: {
           colors: {
@@ -36,7 +40,7 @@
     }
   </script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@300;400;500;600;700;800&display=swap');
     body { font-family: 'Noto Sans JP', 'Inter', sans-serif; }
     .fade-in { animation: fadeIn 0.3s ease-in; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -73,76 +77,104 @@
     </div>
   </header>
 
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-12">
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8">
 
     {# ============================================= #}
-    {# マクロ: セクション描画                          #}
+    {# マクロ: セクション描画 (Hero + Rail + Grid)     #}
     {# ============================================= #}
-    {% macro render_section(section_id, section_data, title, subtitle, color, must_read_label, filter_prefix, is_first=false) %}
+    {% macro render_section(section_id, section_data, section_number, icon_svg, color, title, subtitle, must_read_label, filter_prefix, is_first=false) %}
     {% set items = section_data.get("items", []) %}
     {% set summary = section_data.get("summary", "") %}
     {% set trends = section_data.get("trends", []) %}
     {% set must_read = section_data.get("must_read", []) %}
     {% set categories = section_data.get("categories", {}) %}
 
-    <div id="{{ section_id }}"{% if not is_first %} class="border-t border-gray-200 pt-10"{% endif %}>
-      <div class="flex items-center gap-3 mb-6">
-        <div class="w-1 h-8 bg-{{ color }}-500 rounded-full"></div>
-        <div>
-          <h2 class="text-lg font-bold text-{{ color }}-700">{{ title }}</h2>
-          <p class="text-xs text-gray-400">{{ subtitle }}</p>
+    <div id="{{ section_id }}" class="relative{% if not is_first %} mt-24{% endif %}">
+      {# 装飾的な大型章番号（背景に薄く） #}
+      <div aria-hidden="true" class="pointer-events-none select-none absolute -top-8 right-0 hidden sm:block">
+        <span class="text-[9rem] font-black text-{{ color }}-50 tabular-nums leading-none tracking-tighter">{{ section_number }}</span>
+      </div>
+
+      {# セクションヘッダー: 章番号 + アイコン + 見出し #}
+      <div class="relative flex items-center gap-5 mb-8">
+        <div class="flex-shrink-0 w-16 h-16 rounded-2xl bg-gradient-to-br from-{{ color }}-500 to-{{ color }}-700 text-white flex items-center justify-center shadow-lg shadow-{{ color }}-200/60">
+          {{ icon_svg }}
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-3">
+            <span class="text-[10px] font-bold text-{{ color }}-500 tracking-[0.2em]">CHAPTER&nbsp;{{ section_number }}</span>
+            <div class="flex-1 h-px bg-gradient-to-r from-{{ color }}-300 to-transparent"></div>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight mt-1.5">{{ title }}</h2>
+          <p class="text-sm text-gray-500 mt-1">{{ subtitle }}</p>
         </div>
       </div>
 
-      {# サマリー #}
-      {% if summary %}
-      <section class="fade-in mb-6">
-        <div class="bg-{{ color }}-50 rounded-2xl p-6 border border-{{ color }}-100">
-          <p class="text-gray-700 leading-relaxed">{{ summary | md_links }}</p>
-          {% if trends %}
-          <div class="mt-4 flex flex-wrap gap-2">
-            {% for t in trends %}
-            <span class="inline-block bg-{{ color }}-100 text-{{ color }}-700 text-xs px-3 py-1.5 rounded-full border border-{{ color }}-200">{{ t }}</span>
-            {% endfor %}
-          </div>
-          {% endif %}
-        </div>
-      </section>
-      {% endif %}
+      {# Hero + Rail レイアウト #}
+      <div class="grid lg:grid-cols-3 gap-6 mb-8">
 
-      {# 注目ピックアップ #}
-      {% if must_read %}
-      <section class="fade-in mb-8">
-        <h3 class="text-sm font-semibold text-{{ color }}-600 uppercase tracking-wider mb-3">{{ must_read_label }}</h3>
-        <div class="space-y-3">
-          {% for item in must_read %}
-          <div class="bg-white border border-{{ color }}-100 rounded-xl px-5 py-4 shadow-sm">
-            <div class="flex items-start gap-3">
-              <span class="flex-shrink-0 mt-0.5 w-6 h-6 rounded-full bg-{{ color }}-100 text-{{ color }}-600 text-xs font-bold flex items-center justify-center">{{ loop.index }}</span>
-              <div class="min-w-0 flex-1">
-                <a href="{{ item.url }}" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-1.5">
-                  <p class="text-sm font-medium text-gray-800 group-hover:text-{{ color }}-600 transition-colors">{{ item.title }}</p>
-                  <svg class="flex-shrink-0 w-3.5 h-3.5 text-gray-300 group-hover:text-{{ color }}-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-                </a>
-                <p class="text-xs font-medium text-{{ color }}-600 mt-1">{{ item.one_liner }}</p>
-                {% if item.detail %}<p class="text-xs text-gray-500 leading-relaxed mt-2">{{ item.detail }}</p>{% endif %}
-                <p class="text-xs text-gray-400 mt-2">{{ item.source }}</p>
-              </div>
+        {# TL;DR ヒーロー (col-span-2) #}
+        {% if summary %}
+        <section class="fade-in lg:col-span-2">
+          <div class="h-full bg-gradient-to-br from-{{ color }}-50 to-white rounded-2xl p-7 border border-{{ color }}-100 relative overflow-hidden">
+            <div aria-hidden="true" class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-{{ color }}-500 to-{{ color }}-300"></div>
+            <p class="text-xs font-bold text-{{ color }}-600 uppercase tracking-widest mb-3">TL;DR</p>
+            <p class="text-base sm:text-lg text-gray-800 leading-relaxed font-medium">{{ summary | md_links }}</p>
+            {% if trends %}
+            <div class="mt-5 flex flex-wrap gap-2">
+              {% for t in trends %}
+              <span class="inline-block bg-white text-{{ color }}-700 text-xs px-3 py-1.5 rounded-full border border-{{ color }}-200 font-medium">#{{ t }}</span>
+              {% endfor %}
+            </div>
+            {% endif %}
+          </div>
+        </section>
+        {% endif %}
+
+        {# ハイライト Rail (col-span-1) #}
+        {% if must_read %}
+        <section class="fade-in lg:col-span-1">
+          <div class="h-full bg-white rounded-2xl border border-gray-150 p-5 shadow-sm">
+            <div class="flex items-center gap-2 mb-4 pb-3 border-b border-gray-100">
+              <div class="w-1 h-4 bg-{{ color }}-500 rounded-full"></div>
+              <h3 class="text-xs font-bold text-{{ color }}-600 uppercase tracking-widest">{{ must_read_label }}</h3>
+            </div>
+            <div class="space-y-4">
+              {% for item in must_read %}
+              <a href="{{ item.url }}" target="_blank" rel="noopener noreferrer" class="group block">
+                <div class="flex items-start gap-3">
+                  <span class="flex-shrink-0 mt-0.5 w-6 h-6 rounded-full bg-{{ color }}-100 text-{{ color }}-700 text-xs font-bold flex items-center justify-center tabular-nums">{{ loop.index }}</span>
+                  <div class="min-w-0 flex-1">
+                    <p class="text-sm font-semibold text-gray-800 group-hover:text-{{ color }}-600 transition-colors leading-snug">{{ item.title }}</p>
+                    <p class="text-xs text-{{ color }}-600 mt-1 leading-relaxed">{{ item.one_liner }}</p>
+                    {% if item.detail %}
+                    <details class="mt-1.5">
+                      <summary class="text-[11px] text-gray-400 hover:text-{{ color }}-600 transition-colors inline-flex items-center gap-1">
+                        <span>詳細</span>
+                        <svg class="expand-icon w-3 h-3 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                      </summary>
+                      <p class="text-xs text-gray-500 leading-relaxed mt-1.5">{{ item.detail }}</p>
+                    </details>
+                    {% endif %}
+                    <p class="text-[11px] text-gray-400 mt-1.5">{{ item.source }}</p>
+                  </div>
+                </div>
+              </a>
+              {% endfor %}
             </div>
           </div>
-          {% endfor %}
-        </div>
-      </section>
-      {% endif %}
+        </section>
+        {% endif %}
+      </div>
 
-      {# 全記事展開 #}
+      {# 全記事展開 (折りたたみ) #}
       {% if categories %}
       <details class="fade-in">
-        <summary class="flex items-center gap-2 text-sm text-gray-400 hover:text-{{ color }}-600 transition-colors py-2">
+        <summary class="flex items-center gap-2 text-sm text-gray-500 hover:text-{{ color }}-600 transition-colors py-3 px-4 bg-white rounded-xl border border-gray-150 shadow-sm">
           <svg class="expand-icon w-4 h-4 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-          すべて見る（{{ items | length }}件）
+          <span class="font-medium">すべて見る（{{ items | length }}件）</span>
         </summary>
-        <div class="mt-4 space-y-6">
+        <div class="mt-5 space-y-6 max-w-7xl mx-auto">
           <div class="flex flex-wrap gap-2" id="{{ filter_prefix }}-filter">
             <button class="{{ filter_prefix }}-filter-btn active bg-{{ color }}-500 text-white text-sm px-4 py-1.5 rounded-full transition-colors" data-category="all" onclick="filters['{{ filter_prefix }}']('all')">すべて</button>
             {% for cat_name in categories %}
@@ -159,7 +191,7 @@
               <a href="{{ article.url }}" target="_blank" rel="noopener noreferrer" class="group block bg-white border border-gray-150 rounded-xl p-4 hover:border-{{ color }}-300 hover:shadow-md transition-all shadow-sm">
                 <div class="flex items-start justify-between gap-2 mb-2">
                   <h4 class="text-sm font-medium text-gray-800 group-hover:text-{{ color }}-600 transition-colors line-clamp-2 leading-snug">{{ article.title }}</h4>
-                  <span class="flex-shrink-0 text-xs text-gray-300 tabular-nums">{{ "\u2605" * (article.importance | default(3)) }}{{ "\u2606" * (5 - (article.importance | default(3))) }}</span>
+                  <span class="flex-shrink-0 text-xs text-gray-300 tabular-nums">{{ "★" * (article.importance | default(3)) }}{{ "☆" * (5 - (article.importance | default(3))) }}</span>
                 </div>
                 <p class="text-xs text-gray-500 leading-relaxed line-clamp-3">{{ article.summary }}</p>
                 <div class="mt-3 flex items-center justify-between">
@@ -181,39 +213,60 @@
     {# 5セクション描画                                #}
     {# ============================================= #}
 
+    {% set icon_japan_biz %}
+      <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg>
+    {% endset %}
+    {% set icon_global_biz %}
+      <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" /></svg>
+    {% endset %}
+    {% set icon_japan_tech %}
+      <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+    {% endset %}
+    {% set icon_global_tech %}
+      <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 002.25-2.25V6.75a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 6.75v10.5a2.25 2.25 0 002.25 2.25zm.75-12h9v9h-9v-9z" /></svg>
+    {% endset %}
+    {% set icon_papers %}
+      <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 00-.491 6.347A48.62 48.62 0 0112 20.904a48.62 48.62 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.636 50.636 0 00-2.658-.813A59.906 59.906 0 0112 3.493a59.903 59.903 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" /></svg>
+    {% endset %}
+
     {{ render_section(
         "japan-biz", digest.japan_biz,
+        "01", icon_japan_biz, "japan",
         "国内ビジネス動向", "資金調達・提携・製品発表・政策",
-        "japan", "ハイライト", "jpbiz", is_first=true
+        "ハイライト", "jpbiz", is_first=true
     ) }}
 
     {{ render_section(
         "global-biz", digest.global_biz,
+        "02", icon_global_biz, "orbit",
         "海外ビジネス動向", "Industry Now — グローバル市場の動き",
-        "orbit", "ハイライト", "glbiz"
+        "ハイライト", "glbiz"
     ) }}
 
     {{ render_section(
         "japan-tech", digest.japan_tech,
+        "03", icon_japan_tech, "tech",
         "国内技術動向", "技術開発・実証実験・導入事例",
-        "tech", "ハイライト", "jptech"
+        "ハイライト", "jptech"
     ) }}
 
     {{ render_section(
         "global-tech", digest.global_tech,
+        "04", icon_global_tech, "gtech",
         "海外技術動向", "新手法・ベンチマーク・技術ブレイクスルー",
-        "gtech", "ハイライト", "gltech"
+        "ハイライト", "gltech"
     ) }}
 
     {{ render_section(
         "papers", digest.papers,
+        "05", icon_papers, "paper",
         "Research Frontier", "今週の注目論文 — 未来を拓く研究",
-        "paper", "ハイライト", "papers"
+        "ハイライト", "papers"
     ) }}
 
     <!-- Archives -->
     {% if digest.archives %}
-    <section id="archives" class="fade-in border-t border-gray-200 pt-8">
+    <section id="archives" class="fade-in border-t border-gray-200 pt-8 mt-24">
       <h3 class="text-base font-semibold text-gray-500 mb-4">過去のダイジェスト</h3>
       <div class="flex flex-wrap gap-2">
         {% for archive in digest.archives %}
