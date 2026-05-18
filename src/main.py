@@ -131,11 +131,24 @@ def deploy(dry_run: bool, settings: dict) -> None:
             cwd=str(PROJECT_ROOT),
             check=True,
         )
-        subprocess.run(
-            ["git", "push", "origin", branch],
-            cwd=str(PROJECT_ROOT),
-            check=True,
-        )
+        try:
+            subprocess.run(
+                ["git", "push", "origin", branch],
+                cwd=str(PROJECT_ROOT),
+                check=True,
+            )
+        except subprocess.CalledProcessError:
+            logger.warning("Push rejected, retrying after rebase...")
+            subprocess.run(
+                ["git", "pull", "--rebase", "origin", branch],
+                cwd=str(PROJECT_ROOT),
+                check=True,
+            )
+            subprocess.run(
+                ["git", "push", "origin", branch],
+                cwd=str(PROJECT_ROOT),
+                check=True,
+            )
         logger.info("Deployed successfully: %s", message)
     except subprocess.CalledProcessError:
         logger.error("Deploy failed", exc_info=True)
