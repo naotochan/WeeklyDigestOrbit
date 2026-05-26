@@ -49,7 +49,8 @@ def _md_links_to_html(text: str) -> str:
     # まずテキスト全体をエスケープ → リンク以外のHTMLは無害化
     escaped = html_escape(text, quote=True)
     # エスケープ済みテキスト上でマークダウンリンクを変換
-    return re.sub(r'\[([^\]]+)\]\(([^)]+)\)', _replace_link, escaped)
+    # 全角括弧（ ）も許容（日本語文章で混在するケースに対応）
+    return re.sub(r'\[([^\]]+)\]\(([^\)）]+)[\)）]', _replace_link, escaped)
 
 
 def _group_by_category(items: list[dict]) -> dict[str, list[dict]]:
