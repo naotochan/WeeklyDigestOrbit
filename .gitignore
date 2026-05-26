@@ -32,3 +32,10 @@ data/digests/
 
 # Tasks / session logs (dev only)
 tasks/
+
+# Tailwind CLI binary (platform-specific, not committed)
+tailwindcss
+tailwindcss-*
+
+# Node.js (if ever installed locally)
+node_modules/

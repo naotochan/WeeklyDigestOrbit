@@ -116,14 +116,14 @@ def generate_site(
     template = env.get_template("index.html.j2")
 
     # docs/index.html 用（アーカイブリンクは archives/ 付き）
-    html_index = template.render(digest=digest, archive_url_prefix="archives/")
+    html_index = template.render(digest=digest, archive_url_prefix="archives/", css_prefix="")
     docs_path = root / docs_dir
     docs_path.mkdir(parents=True, exist_ok=True)
     (docs_path / "index.html").write_text(html_index, encoding="utf-8")
     logger.info("Generated: %s", docs_path / "index.html")
 
     # アーカイブ用（同ディレクトリなのでプレフィックス不要）
-    html_archive = template.render(digest=digest, archive_url_prefix="")
+    html_archive = template.render(digest=digest, archive_url_prefix="", css_prefix="../")
     arch_path = root / archives_dir
     arch_path.mkdir(parents=True, exist_ok=True)
     archive_file = arch_path / f"{week_id}.html"
