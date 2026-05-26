@@ -11,6 +11,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      maxWidth: {
+        'mid-xl': '1700px',
+      },
       colors: {
         japan: {
           50: '#fef2f2', 100: '#fee2e2', 200: '#fecaca', 300: '#fca5a5',
