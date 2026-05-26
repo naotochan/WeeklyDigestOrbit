@@ -12,8 +12,8 @@ Environment=PYTHONPATH=/home/pi/WeeklyDigestOrbit/src
 StandardOutput=journal
 StandardError=journal
 
-# タイムアウト: 24Bモデル × 7回以上のLLM呼び出しを考慮
-TimeoutStartSec=3600
+# タイムアウト: バッチ要約(5回) + セクション合成(5回) を考慮して余裕を持たせる
+TimeoutStartSec=7200
 
 [Install]
 WantedBy=multi-user.target

@@ -20,7 +20,7 @@ arxiv:
     - "robot learning"
     - "manipulation"
     - "locomotion"
-  max_results: 30
+  max_results: 20
 
 # 出力設定
 output:
