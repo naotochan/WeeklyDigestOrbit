@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@300;400;500;600;700;800&display=swap">
-  <link rel="stylesheet" href="{{ css_prefix }}assets/tailwind.css">
+  <style>{{ tailwind_css | safe }}</style>
   <style>
     body { font-family: 'Noto Sans JP', 'Inter', sans-serif; }
     .fade-in { animation: fadeIn 0.3s ease-in; }
